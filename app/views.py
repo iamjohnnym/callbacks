@@ -32,6 +32,7 @@ def add():
                 print e
             sendmail = SendMail(recipient='john.martin@rackspace.com',
                                 status='New',
+                                id=id['callback']['id'],
                                 **vars)
             message = sendmail.run()
             msg = Markup("New callback has been created for {0}.  To view, go here: <a href=\"/callbacks/{1}\">View</a>".format(vars['name'], id['callback']['id']))
@@ -79,6 +80,7 @@ def callback(case):
                                 phone=callbacks['callback']['phone'],
                                 ticket=callbacks['callback']['ticket'],
                                 platform=callbacks['callback']['platform'],
+                                id=case,
                                 **dictionary
                                 )
             message = sendmail.run()
