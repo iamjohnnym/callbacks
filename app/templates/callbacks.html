@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+    <h3>{{ test }}</h3>
+    <table class="table table-striped">
+        <thead>
+            <th>Platform</th>
+            <th>Status</th>
+            <th>DDI</th>
+            <th>Ticket</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Created</th>
+            <th>Last Updated</th>
+        </thead>
+        <tbody>
+            {% for cb in callbacks %}
+                <tr>
+                    <td>{{ cb.platform }}</td>
+                    <td>{{ cb.status }}</td>
+                    <td>{{ cb.ddi }}</td>
+                    <td>{{ cb.ticket }}</td>
+                    <td>{{ cb.name }}</td>
+                    <td>{{ cb.phone }}</td>
+                    <td>{{ cb.created }}</td>
+                    <td>{{ cb.updated }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

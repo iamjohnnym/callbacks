@@ -1,0 +1,58 @@
+{% extends 'sb-admin/base.html' %}
+{% block content %}
+        <div class="row">
+          <div class="col-lg-12">
+            <h1>Callbacks <small>List of Callbacks</small></h1>
+            <ol class="breadcrumb">
+              <li class="active"><i class="fa fa-dashboard"></i> Callbacks</li>
+            </ol>
+            <!--
+            <div class="alert alert-success alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            </div>
+            -->
+          </div>
+        </div><!-- /.row -->
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-clock-o"></i> Callbacks</h3>
+              </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover table-striped tablesorter">
+        <thead>
+          <tr>
+            <th>Platform <i class="fa fa-sort"></i></th>
+            <th>Status <i class="fa fa-sort"></i></th>
+            <th>DDI <i class="fa fa-sort"></i></th>
+            <th>Ticket <i class="fa fa-sort"></i></th>
+            <th>Name <i class="fa fa-sort"></i></th>
+            <th>Phone <i class="fa fa-sort"></i></th>
+            <th>Created <i class="fa fa-sort"></i></th>
+            <th>Last Updated <i class="fa fa-sort"></i></th>
+            <th>Access</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for cb in callbacks["callbacks"] %}
+                <tr href="/callbacks/{{cb.id}}">
+                    <td>{{ cb.platform }}</td>
+                    <td>{{ cb.details[-1].status }}</td>
+                    <td><a href="https://us.cloudcontrol.rackspacecloud.com/customer/{{cb.ddi}}" target="__blank">{{ cb.ddi }}</a></td>
+                    <td><a href="https://rackspacecloud.zendesk.com/tickets/{{cb.ticket}}" target="__blank">{{ cb.ticket }}</a></td>
+                    <td>{{ cb.name }}</td>
+                    <td>{{ cb.phone }}</td>
+                    <td>{{ cb.created }}</td>
+                    <td>{{ cb.details[-1].updated }}</td>
+                    <td><a href="/callbacks/{{cb.id}}">View</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+            </div>
+          </div>
+        </div><!-- /.row -->
+{% endblock %}

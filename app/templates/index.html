@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+    <h3>{{ test }}</h3>
+    <form roll="form" name="callback" method="post">
+    {{ form.hidden_tag() }}
+    {% for field in form %}
+        {% if field.type == "TextField" %}
+            <div class="form-group list-group-item">
+                <div class="form-group input-group">
+                    <span class="input-group-addon align-left" style="width:140px;">{{ field.short_name.replace("_", " ").title() }}
+                    {% if field.flags.required %}
+                        <span style="color: red;">*</span>
+                    {% endif %}
+                    </span>
+                    {{ field(size=60,class="form-control input-small",placeholder="Enter the " + field.short_name.replace("_", " ")) }}
+                </div>
+                {% if field.flags.required %}
+                    {% for error in field.errors %}
+                        <span style="color:red;">[{{error}}]</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if field.type == "TextAreaField" %}
+            <div class="form-group list-group-item">
+                <div class="form-group input-group">
+                    <span class="input-group-addon align-left" style="width:140px;">{{ field.short_name.replace("_", " ").title() }}
+                    {% if field.flags.required %}
+                        <span style="color: red;">*</span>
+                    {% endif %}
+                    </span>
+                    {{ field(rows=10, cols=60,class="form-control input-small",placeholder="Enter the " + field.short_name.replace("_", " ")) }}
+                </div>
+                {% if field.flags.required %}
+                    {% for error in field.errors %}
+                        <span style="color:red;">[{{error}}]</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
+    <div class="form-group">
+        <input class="form-control" type="submit" value="Create New Callback">
+    </div>
+    </form>
+{% endblock %}
