@@ -42,7 +42,7 @@ Subject: {7}: {6} Call Back - Ticket {4}
 In-Reply-To: {8}
 Message-ID: {8}
 References: {8}
-Thread-Index: {6} Call Back - Ticket {4}
+Thread-Topic: {6} Call Back - Ticket {4}
 Thread-Index: {8}
 
 DDI: {1}
