@@ -2,7 +2,7 @@ from internalapi.api import GlobalApi
 from sendmail.mail import SendMail
 from page.forms import CallbackSubmit, CallbackUpdate
 from models import Callbacks
-from flask import render_template, flash, redirect, session, url_for
+from flask import render_template, flash, redirect, session, url_for, request, Markup
 from app import app, db
 import datetime
 import requests
@@ -34,6 +34,8 @@ def add():
                                 status='New',
                                 **vars)
             message = sendmail.run()
+            msg = Markup("New callback has been created for {0}.  To view, go here: <a href=\"/callbacks/{1}\">View</a>".format(vars['name'], id['callback']['id']))
+            flash(msg)
             return redirect(url_for('index'))
         return render_template("sb-admin/add.html",
             title='CallBack Form',
@@ -54,7 +56,7 @@ def index():
     return render_template("sb-admin/list.html",
         title='Current Callbacks',
         test='Current Callbacks',
-        callbacks=callbacks
+        callbacks=callbacks,
         )
     
 @app.route('/callbacks/<case>', methods=['GET', 'POST', 'PUT'])

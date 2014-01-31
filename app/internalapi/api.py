@@ -10,13 +10,13 @@ class GlobalApi():
     def post(self, endpoint, dictionary):
         url = "http://192.237.219.96:8182/api/v1.0/{0}".format(endpoint)
         header = {'Content-type': 'application/json'}
-        req = requests.post(url, data=json.dumps(dictionary), headers=header)
+        req = requests.post(url, data=json.dumps(dictionary), headers=header).json()
         return req
 
     def put(self, endpoint, case, dictionary):
         url = "http://192.237.219.96:8182/api/v1.0/{0}/{1}".format(endpoint,case)
         header = {'Content-type': 'application/json'}
-        req = requests.put(url, data=json.dumps(dictionary), headers=header)
+        req = requests.put(url, data=json.dumps(dictionary), headers=header).json()
         return req
 
     def get(self, endpoint, case):

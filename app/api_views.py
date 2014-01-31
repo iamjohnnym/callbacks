@@ -78,7 +78,6 @@ class CallbackListAPI(Resource):
                   'created':callback.created,
                   }
             deets = callback.cb_details.all()
-            print deets
             for deet in deets:
                 details = {'updated':deet.updated,
                            'details':deet.details,
@@ -171,7 +170,6 @@ class CallbackAPI(Resource):
                   'created':callback.created,
                   }
             deets = callback.cb_details.all()
-            print deets
             for deet in deets:
                 details = {'updated':deet.updated,
                            'details':deet.details,
