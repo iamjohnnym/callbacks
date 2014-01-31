@@ -43,7 +43,11 @@
         <tbody>
             {% for cb in callbacks["callbacks"] %}
                 <tr href="/callbacks/{{cb.id}}">
-                    <td>{{ cb.platform }}</td>
+                    {% if cb.platform|lower == 'linux' %}
+                    <td><i class="fa fa-linux"></i> {{ cb.platform|title }}</td>
+                    {% else %}
+                    <td><i class="fa fa-windows"></i> {{ cb.platform|title }}</td>
+                    {% endif %}
                     <td>{{ cb.details[-1].status }}</td>
                     <td><a href="https://us.cloudcontrol.rackspacecloud.com/customer/{{cb.ddi}}" target="__blank">{{ cb.ddi }}</a></td>
                     <td><a href="https://rackspacecloud.zendesk.com/tickets/{{cb.ticket}}" target="__blank">{{ cb.ticket }}</a></td>
