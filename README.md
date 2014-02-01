@@ -16,7 +16,9 @@ email, same when updating the status.
 Once in the repo:
 
 `python virtualenv.py flask`
+
 `flask/bin/pip -r Requirements.txt`
+
 `python db_create.py`
 
 Once you have your servers IP, run the application from within:
