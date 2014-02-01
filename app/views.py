@@ -59,7 +59,7 @@ def index():
         test='Current Callbacks',
         callbacks=callbacks,
         )
-    
+
 @app.route('/callbacks/<case>', methods=['GET', 'POST', 'PUT'])
 def callback(case):
     iapi = GlobalApi()
@@ -73,6 +73,7 @@ def callback(case):
                           }
             put = iapi.put('callbacks', case, dictionary)
             form = CallbackUpdate()
+            # redundant.  fix the iapi.put() to return the correct data
             callbacks = iapi.get('callbacks', case)
             sendmail = SendMail(recipient='john.martin@rackspace.com',
                                 ddi=callbacks['callback']['ddi'],
