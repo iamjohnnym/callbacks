@@ -39,18 +39,30 @@ The API only accepts and returns JSON
 | POST         | http://[hostname]/api/v1.0/callbacks            | Create new callback        |
 | PUT          | http://[hostname]/api/v1.0/callbacks/[callback] | Update a callback          |
 
-POST request accepts all fields
--ddi:
--name:
--phone:
--ticket:
--platform:
--details:
--status:
+##### POST request accepts all fields
+- **ddi**: account number. Numeric type.
+- **name**: persons name. String type.
+- **phone**: persons phone number. Numeric type.
+- **ticket**: persons associated ticket number. Numeric type.
+- **platform**: windows or linux?  String type.
+- **details**: detail informatuon about the call.  Text type.
+- **status**: the status of the callback.  String type
 
-PUT requests accept 2 fields
--details
--status
+##### PUT requests accept 2 fields
+- **details**: detail informatuon about the call.  Text type.
+- **status**: the status of the callback.  String type
+
+##### All fields
+- **id**: unique identifer for callbacks. Numeric type.
+- **ddi**: account number. Numeric type.
+- **name**: persons name. String type.
+- **phone**: persons phone number. Numeric type.
+- **ticket**: persons associated ticket number. Numeric type.
+- **platform**: windows or linux?  String type.
+- **details**: detail informatuon about the call.  Text type.
+- **status**: the status of the callback.  String type.
+- **created**: when the callback was created.  DateTime type.
+- **updated**: when the callback was last updated. DateTime type.
 
 Return a full list of call backs
 http://xxx.xxx.xxx.xxx/api/v1.0/callbacks
@@ -60,13 +72,13 @@ http://xxx.xxx.xxx.xxx/api/v1.0/callbacks/#
 
 ### To-Do
 
--Better error handling for web interface and the API
--User Login
--Admin Panel
--Consistant updates to the callback list
--~~Email threading~~
--Consider migrating the database to mongodb
--Pageination
--Commenting Code
--Refractor**
+- Better error handling for web interface and the API
+- User Login
+- Admin Panel
+- Consistant updates to the callback list
+- ~~Email threading~~
+- Consider migrating the database to mongodb
+- Pageination
+- Commenting Code
+- Refractor**
 
