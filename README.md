@@ -32,12 +32,12 @@ Load up the URL in your favorite browser.
 
 The API only accepts and returns JSON
 
-|HTTP Method|URI|Action|
-|:-|:-|:-|
-|GET|http://[hostname]/api/v1.0/callbacks|Retrieve list of callbacks|
-|GET|http://[hostname]/api/v1.0/callbacks/[callback]|Retrieve a callback|
-|POST|http://[hostname]/api/v1.0/callbacks|Create new callback|
-|PUT|http://[hostname]/api/v1.0/callbacks/[callback]|Update a callback|
+| HTTP Method  | URI                                             |                     Action |
+| :----------- | :---------------------------------------------- | :------------------------- |
+| GET          | http://[hostname]/api/v1.0/callbacks            | Retrieve list of callbacks |
+| GET          | http://[hostname]/api/v1.0/callbacks/[callback] | Retrieve a callback        |
+| POST         | http://[hostname]/api/v1.0/callbacks            | Create new callback        |
+| PUT          | http://[hostname]/api/v1.0/callbacks/[callback] | Update a callback          |
 
 POST request accepts all fields
 -ddi:
