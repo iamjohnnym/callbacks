@@ -54,7 +54,7 @@ def add():
 def index():
     iapi = GlobalApi()
     callbacks = iapi.get_all('callbacks')
-    return render_template("sb-admin/list.html",
+    return render_template("sb-admin/list.js.html",
         title='Current Callbacks',
         test='Current Callbacks',
         callbacks=callbacks,
