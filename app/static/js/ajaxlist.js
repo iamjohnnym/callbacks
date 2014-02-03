@@ -51,9 +51,9 @@ function CallbacksViewModel() {
     }
     function ajaxCall() {
         self.ajax(self.callbacksLengthURI, 'GET').done(function(data) {
-            $('.tablesorter').trigger("update");
             if (data.callbacks > self.cb + 1) {
                 self.ajax(self.callbacksURI, 'GET').done(function(data) {
+                    $('.tablesorter').trigger("update");
                     $('.cb-row').remove();
                     for (var i = 0; i < data.callbacks.length; i++) {
                         if (data.callbacks[i].platform.toLowerCase() == "linux") {
