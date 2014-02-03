@@ -45,14 +45,14 @@
         </thead>
         <tbody>
             <!-- ko foreach: callbacks -->
-            <tr data-bind="attr: {class: label }" href="/callbacks/">
+            <tr class="cb-row" data-bind="attr: {class: label }">
                     <td class="cb-cell"><i data-bind="attr: {class: platform_fa }"></i> <span data-bind="html: platform"></span></td>
-                    <td class="cb-cell"><p data-bind="html: status">fdsafasdf</p></td>
+                    <td class="cb-cell"><p data-bind="text: status">fdsafasdf</p></td>
                     <td class="cb-cell"><a data-bind="html: ddi, attr: {href: ddi_url}" target="__blank"></a></td>
-                    <td class="cb-cell"><a data-bind="attr: {href: ticket_url}, text: ticket" target="__blank"></a></td>
-                    <td class="cb-cell"><p data-bind="text: name"></p></td>
+                    <td class="cb-cell"><a data-bind="attr: {href: ticket_url}, html: ticket" target="__blank"></a></td>
+                    <td class="cb-cell"><p data-bind="html: name"></p></td>
                     <td class="cb-cell"><p data-bind="text: phone"></p></td>
-                    <td class="cb-cell"><p data-bind="text: created"></p></td>
+                    <td class="cb-cell"><p data-bind="html: created"></p></td>
                     <td class="cb-cell"><p data-bind="text: updated"></p></td>
                     <td class="cb-cell"><a data-bind="attr: {href: uri }">View</a></td>
                 </tr>

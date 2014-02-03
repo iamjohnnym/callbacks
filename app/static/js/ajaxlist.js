@@ -51,9 +51,10 @@ function CallbacksViewModel() {
     }
     function ajaxCall() {
         self.ajax(self.callbacksLengthURI, 'GET').done(function(data) {
+            $('.tablesorter').trigger("update");
             if (data.callbacks > self.cb + 1) {
                 self.ajax(self.callbacksURI, 'GET').done(function(data) {
-                    $('.cb-row').html('');
+                    $('.cb-row').remove();
                     for (var i = 0; i < data.callbacks.length; i++) {
                         if (data.callbacks[i].platform.toLowerCase() == "linux") {
                             platform_fa = "fa fa-linux";
@@ -65,6 +66,8 @@ function CallbacksViewModel() {
                         if (updated_moment.indexOf('minutes') > -1)  {
                             var label = "cb-row success";
                         } else if (updated_moment.regexIndexOf(/([1-9][0-9]|[6-9])/, 0) > -1) {
+                            var label = "cb-row danger";
+                        } else if (updated_moment.indexOf('day') > -1)  {
                             var label = "cb-row danger";
                         } else if (updated_moment.indexOf('in a few seconds') > -1)  {
                             var label = "cb-row success";
