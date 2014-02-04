@@ -64,11 +64,12 @@ function CallbacksViewModel() {
                         var updated_moment = moment(data.callbacks[i]["details"][data.callbacks[i]["details"].length - 1].updated).fromNow();
                         var created_moment = moment(data.callbacks[i].created).fromNow();
                         if ((updated_moment.regexIndexOf(/([1-9][0-9]|[6-9])/, 0) > -1
-                            || updated_moment.indexOf('day') > -1)
+                            || (updated_moment.indexOf('day') > -1
+                                || updated_moment.indexOf('hour') > -1))
                             && !(updated_moment.indexOf('minutes') > -1)) {
                             var label = "cb-row danger";
-                        } else if ((updated_moment.regexIndexOf(/([1-5])/, 0) > -1)
-                                   && !(updated_moment.indexOf('minutes')))  {
+                        } else if ((updated_moment.regexIndexOf(/([1-4][0-9])/, 0) > -1
+                                   || updated_moment.indexOf('hours') > -1)) {
                             var label = "cb-row warning";
                         } else { 
                             var label = "cb-row success";
