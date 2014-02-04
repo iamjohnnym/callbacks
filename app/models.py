@@ -17,6 +17,7 @@ class CallbackDetails(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     updated = db.Column(db.DateTime)
     details = db.Column(db.String(64), index = True)
+    private = db.Column(db.String(64), index = True)
     status = db.Column(db.String(64), index = True)
     callbacks_id = db.Column(db.Integer, db.ForeignKey('callbacks.id'))
 

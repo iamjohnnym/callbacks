@@ -12,14 +12,7 @@ import requests
 def add():
     iapi = GlobalApi()
     form = CallbackSubmit()
-    #if form.validate():
     if form.validate_on_submit():
-        #if form.ddi.data \
-        #   and form.ticket.data \
-        #   and form.name.data \
-        #   and form.phone.data \
-        #   and form.platform.data \
-        #   and form.details.data:
         vars = {'ddi':form.ddi.data,
                 'ticket':form.ticket.data,
                 'name':form.name.data,
@@ -61,33 +54,32 @@ def callback(case):
     iapi = GlobalApi()
     form = CallbackUpdate()
     callbacks = iapi.get('callbacks', case)
-    if form.validate_on_submit:
-        if form.status.data \
-            and form.details.data:
-            dictionary = {'details': form.details.data,
-                          'status': form.status.data,
-                          }
-            put = iapi.put('callbacks', case, dictionary)
-            form = CallbackUpdate()
-            # redundant.  fix the iapi.put() to return the correct data
-            callbacks = iapi.get('callbacks', case)
-            sendmail = SendMail(recipient='john.martin@rackspace.com',
-                                ddi=callbacks['callback']['ddi'],
-                                name=callbacks['callback']['name'],
-                                phone=callbacks['callback']['phone'],
-                                ticket=callbacks['callback']['ticket'],
-                                platform=callbacks['callback']['platform'],
-                                id=case,
-                                **dictionary
-                                )
-            message = sendmail.run()
-        return render_template("sb-admin/details.html",
+    if form.validate_on_submit():
+        dictionary = {'details': form.details.data,
+                      'status': form.status.data,
+                      'private': form.private.data,
+                      }
+        put = iapi.put('callbacks', case, dictionary)
+        form = CallbackUpdate()
+        # redundant.  fix the iapi.put() to return the correct data
+        callbacks = iapi.get('callbacks', case)
+#|        sendmail = SendMail(recipient='john.martin@rackspace.com',
+#|                        ddi=callbacks['callback']['ddi'],
+#|                            name=callbacks['callback']['name'],
+#|                            phone=callbacks['callback']['phone'],
+#|                            ticket=callbacks['callback']['ticket'],
+#|                            platform=callbacks['callback']['platform'],
+#|                            id=case,
+#|                            **dictionary
+#|                            )
+#|        message = sendmail.run()
+        return render_template("sb-admin/details.js.html",
             title='Current Callbacks',
             test='Current Callbacks',
             callbacks=callbacks['callback'],
             form=form
             )
-    return render_template("sb-admin/details.html",
+    return render_template("sb-admin/details.js.html",
         title='Current Callbacks',
         test='Current Callbacks',
         callbacks=callbacks['callback'],

@@ -50,6 +50,23 @@
                             {% endif %}
                         </div>
                     {% endif %}
+                    {% if field.type in ["SelectField"] %}
+                        <div class="form-group list-group-item">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon" style="width:140px;">{{ field.short_name.replace("_", " ").title() }}
+                                {% if field.flags.required %}
+                                    <span style="color: red;">*</span>
+                                {% endif %}
+                                </span>
+                                {{ field(width="100%",class="form-control",placeholder="Enter the " + field.short_name.replace("_", " ")) }}
+                            </div>
+                            {% if field.flags.required %}
+                                {% for error in field.errors %}
+                                    <span style="color:red;">[{{error}}]</span>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
                     {% if field.type == "TextAreaField" %}
                         <div class="form-group list-group-item">
                             <div class="form-group input-group">

@@ -1,3 +1,4 @@
+from flask.ext.httpauth import HTTPBasicAuth
 from flask.ext.restful import Api, Resource, reqparse, fields, marshal
 from sendmail.mail import SendMail
 from flask.views import MethodView
@@ -7,9 +8,20 @@ from flask import abort, jsonify, request, url_for, make_response
 from app import api, app, db
 import datetime
 
+auth = HTTPBasicAuth()
+@auth.get_password
+def get_password(username):
+    if username == "thecallbacks":
+        return "ag5346hs3gf142g32h4h4"
+    return None
+
+@auth.error_handler
+def unauthorized():
+    return make_response(jsonify( {'message': 'Unauthorized Access'} ), 403)
 
 details = {'updated':fields.DateTime,
            'details':fields.String,
+           'private':fields.String,
            'status':fields.String,
 }
 callback_fields = {
@@ -25,11 +37,17 @@ callback_fields = {
 }
 
 class CallbackListAPI(Resource):
+    decorators = [auth.login_required]
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('name',
                                    type=str,
                                    required=True,
+                                   help="No contact name given",
+                                   location="json"
+                                   )
+        self.reqparse.add_argument('private',
+                                   type=str,
                                    help="No contact name given",
                                    location="json"
                                    )
@@ -81,6 +99,7 @@ class CallbackListAPI(Resource):
             for deet in deets:
                 details = {'updated':deet.updated,
                            'details':deet.details,
+                           'private':deet.private,
                            'status':deet.status,
                     }
                 cb['details'].append(details)
@@ -117,6 +136,7 @@ class CallbackListAPI(Resource):
 
 
 class CallbackAPI(Resource):
+    decorators = [auth.login_required]
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('name',
@@ -125,6 +145,11 @@ class CallbackAPI(Resource):
                                    location="json"
                                    )
         self.reqparse.add_argument('status',
+                                   type=str,
+                                   help="No contact name given",
+                                   location="json"
+                                   )
+        self.reqparse.add_argument('private',
                                    type=str,
                                    help="No contact name given",
                                    location="json"
@@ -173,6 +198,7 @@ class CallbackAPI(Resource):
             for deet in deets:
                 details = {'updated':deet.updated,
                            'details':deet.details,
+                           'private':deet.private,
                            'status':deet.status,
                     }
                 cb['details'].append(details)
@@ -196,6 +222,7 @@ class CallbackAPI(Resource):
         cb_details = {'details':args['details'],
                       'updated':datetime.datetime.utcnow(),
                       'status':args['status'],
+                      'private':args['private'],
                       'comments':id
                       }
         details = CallbackDetails(**cb_details)
@@ -204,6 +231,14 @@ class CallbackAPI(Resource):
         cb['details'].append(cb_details)
         #case = Callbacks.query.filter_by(
         return { 'callback': marshal(cb, callback_fields) }, 201
+
+class CallbacksLengthAPI(Resource):
+    decorators = [auth.login_required]
+
+    def get(self):
+        callbacks = Callbacks.query.all()
+        length = len(callbacks)
+        return make_response(jsonify({'callbacks': length}), 200)
 
 #    def put(self, id):
 #        callbacks = Callbacks.query.filter_by(id=id)
@@ -234,4 +269,5 @@ class CallbackAPI(Resource):
 
 api.add_resource(CallbackListAPI, '/api/v1.0/callbacks', endpoint="endpoints")
 api.add_resource(CallbackAPI, '/api/v1.0/callbacks/<int:id>', endpoint="endpoint")
+api.add_resource(CallbacksLengthAPI, '/api/v1.0/length', endpoint="length")
 
