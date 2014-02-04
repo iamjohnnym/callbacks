@@ -63,20 +63,15 @@ function CallbacksViewModel() {
                         }
                         var updated_moment = moment(data.callbacks[i]["details"][data.callbacks[i]["details"].length - 1].updated).fromNow();
                         var created_moment = moment(data.callbacks[i].created).fromNow();
-                        if (updated_moment.indexOf('minutes') > -1)  {
-                            var label = "cb-row success";
-                        } else if (updated_moment.regexIndexOf(/([1-9][0-9]|[6-9])/, 0) > -1) {
+                        if ((updated_moment.regexIndexOf(/([1-9][0-9]|[6-9])/, 0) > -1
+                            || updated_moment.indexOf('day') > -1)
+                            && !(updated_moment.indexOf('minutes') > -1)) {
                             var label = "cb-row danger";
-                        } else if (updated_moment.indexOf('day') > -1)  {
-                            var label = "cb-row danger";
-                        } else if (updated_moment.indexOf('in a few seconds') > -1)  {
-                            var label = "cb-row success";
-                        } else if (updated_moment.indexOf('a few seconds ago') > -1)  {
-                            var label = "cb-row success";
-                        } else if (updated_moment.indexOf('a minute ago') > -1)  {
-                            var label = "cb-row success";
-                        } else if (updated_moment.regexIndexOf(/([1-5])/, 0) > -1)  {
+                        } else if ((updated_moment.regexIndexOf(/([1-5])/, 0) > -1)
+                                   && !(updated_moment.indexOf('minutes')))  {
                             var label = "cb-row warning";
+                        } else { 
+                            var label = "cb-row success";
                         }
                         self.callbacks.push({
                             label: ko.observable(label),
