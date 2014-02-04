@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import TextAreaField, TextField, BooleanField, validators, ValidationError, IntegerField
+from wtforms import TextAreaField, TextField, BooleanField, validators, ValidationError, IntegerField, SelectField
 from wtforms.validators import Required, NumberRange, Regexp
 
 
@@ -18,11 +18,14 @@ class CallbackSubmit(Form):
                                   message='Must enter 10 digits')])
     name = TextField('Name',
                      [Required('Please enter the contact name')])
-    platform = TextField('Platform',
-                         [Required('Please enter the Platform, Linux or Windows')])
+    platform = SelectField('Platform',
+                           [Required('Please enter the Platform, Linux or Windows')],
+                           choices=[("linux", "Linux"), ("windows","Windows")])
     details = TextAreaField('Call Details')
 
 class CallbackUpdate(Form):
-    status = TextField('Status',
-                       [Required('Please enter the status')])
+    status = SelectField('Status',
+                         [Required('Please enter the status')],
+                         choices=[("pending", "Pending"), ("calling", "Calling"), ("closed", "Closed")])
     details = TextAreaField('Call Details')
+    private = TextAreaField('Private Note')
