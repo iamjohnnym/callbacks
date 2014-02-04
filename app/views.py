@@ -12,37 +12,33 @@ import requests
 def add():
     iapi = GlobalApi()
     form = CallbackSubmit()
-    if form.validate_on_submit:
-        if form.ddi.data \
-           and form.ticket.data \
-           and form.name.data \
-           and form.phone.data \
-           and form.platform.data \
-           and form.details.data:
-            vars = {'ddi':form.ddi.data,
-                    'ticket':form.ticket.data,
-                    'name':form.name.data,
-                    'phone':form.phone.data,
-                    'platform':form.platform.data,
-                    'details':form.details.data
-                    }
-            try:
-                id = iapi.post('callbacks', vars)
-            except requests.exceptions.RequestException,e:
-                print e
-            sendmail = SendMail(recipient='john.martin@rackspace.com',
-                                status='New',
-                                id=id['callback']['id'],
-                                **vars)
-            message = sendmail.run()
-            msg = Markup("New callback has been created for {0}.  To view, go here: <a href=\"/callbacks/{1}\">View</a>".format(vars['name'], id['callback']['id']))
-            flash(msg)
-            return redirect(url_for('index'))
-        return render_template("sb-admin/add.html",
-            title='CallBack Form',
-            test='Create a Callback Email',
-            form=form,
-            )
+    #if form.validate():
+    if form.validate_on_submit():
+        #if form.ddi.data \
+        #   and form.ticket.data \
+        #   and form.name.data \
+        #   and form.phone.data \
+        #   and form.platform.data \
+        #   and form.details.data:
+        vars = {'ddi':form.ddi.data,
+                'ticket':form.ticket.data,
+                'name':form.name.data,
+                'phone':form.phone.data,
+                'platform':form.platform.data,
+                'details':form.details.data
+                }
+        try:
+            id = iapi.post('callbacks', vars)
+        except requests.exceptions.RequestException,e:
+            print e
+        sendmail = SendMail(recipient='john.martin@rackspace.com',
+                            status='New',
+                            id=id['callback']['id'],
+                            **vars)
+        message = sendmail.run()
+        msg = Markup("New callback has been created for {0}.  To view, go here: <a href=\"/callbacks/{1}\">View</a>".format(vars['name'], id['callback']['id']))
+        flash(msg)
+        return redirect(url_for('index'))
     return render_template("sb-admin/add.html",
         title='CallBack Form',
         test='Create a Callback Email',

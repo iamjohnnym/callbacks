@@ -1,16 +1,28 @@
 from flask.ext.wtf import Form
 from wtforms import TextAreaField, TextField, BooleanField, validators, ValidationError
-from wtforms.validators import Required
+from wtforms.validators import Required, NumberRange, Regexp
+
 
 class CallbackSubmit(Form):
     #rec = TextField('TestRecipient', [validators.Required('Please enter the testing recipient')])
-    ddi = TextField('DDI', [validators.Required('Please enter the DDI')])
-    ticket = TextField('Ticket')
-    phone = TextField('Phone', [validators.Required('Please enter the ticket number')])
-    name = TextField('Name', [validators.Required('Please enter the contact name')])
-    platform = TextField('Platform', [validators.Required('Please enter the Platform, Linux or Windows')])
+    ddi = TextField('DDI',
+                    [Required('Please enter the DDI'),
+                    Regexp(regex='\d{4,10}',
+                           message="Must enter at least 4 digits")])
+    ticket = TextField('Ticket',
+                       [Regexp(regex='\d{4,10}',
+                               message='Must enter at least 4 digits')])
+    phone = TextField('Phone',
+                      [Required('Please enter the phone number'),
+                      Regexp(regex='\d{10,15}',
+                                  message='Must enter 10 digits')])
+    name = TextField('Name',
+                     [Required('Please enter the contact name')])
+    platform = TextField('Platform',
+                         [Required('Please enter the Platform, Linux or Windows')])
     details = TextAreaField('Call Details')
-    
+
 class CallbackUpdate(Form):
-    status = TextField('Status', [validators.Required('Please enter the status')])
+    status = TextField('Status',
+                       [Required('Please enter the status')])
     details = TextAreaField('Call Details')
