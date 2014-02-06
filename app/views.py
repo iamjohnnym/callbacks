@@ -12,37 +12,32 @@ import requests
 def add():
     iapi = GlobalApi()
     form = CallbackSubmit()
-    if form.validate_on_submit:
-        if form.ddi.data \
-           and form.ticket.data \
-           and form.name.data \
-           and form.phone.data \
-           and form.platform.data \
-           and form.details.data:
-            vars = {'ddi':form.ddi.data,
-                    'ticket':form.ticket.data,
-                    'name':form.name.data,
-                    'phone':form.phone.data,
-                    'platform':form.platform.data,
-                    'details':form.details.data
-                    }
-            try:
-                id = iapi.post('callbacks', vars)
-            except requests.exceptions.RequestException,e:
-                print e
-            sendmail = SendMail(recipient='john.martin@rackspace.com',
-                                status='New',
-                                id=id['callback']['id'],
-                                **vars)
-            message = sendmail.run()
-            msg = Markup("New callback has been created for {0}.  To view, go here: <a href=\"/callbacks/{1}\">View</a>".format(vars['name'], id['callback']['id']))
-            flash(msg)
-            return redirect(url_for('index'))
-        return render_template("sb-admin/add.html",
-            title='CallBack Form',
-            test='Create a Callback Email',
-            form=form,
-            )
+    if form.validate_on_submit():
+        created = str(datetime.datetime.now())
+        updated = str(datetime.datetime.now())
+        vars = {'ddi':form.ddi.data,
+                'ticket':form.ticket.data,
+                'name':form.name.data,
+                'phone':form.phone.data,
+                'platform':form.platform.data,
+                'details':[
+                    { 'details': form.details.data,
+                      'updated':updated,
+                      'private':None}
+                    ]
+                }
+        try:
+            id = iapi.post('callbacks', vars)
+        except requests.exceptions.RequestException,e:
+            print e
+        sendmail = SendMail(recipient='john.martin@rackspace.com',
+                            status='New',
+                            id=id['id'],
+                            **vars)
+        message = sendmail.run()
+        msg = Markup("New callback has been created for {0}.  To view, go here: <a href=\"/callbacks/{1}\">View</a>".format(vars['name'], id['id']))
+        flash(msg)
+        return redirect(url_for('index'))
     return render_template("sb-admin/add.html",
         title='CallBack Form',
         test='Create a Callback Email',
@@ -54,7 +49,7 @@ def add():
 def index():
     iapi = GlobalApi()
     callbacks = iapi.get_all('callbacks')
-    return render_template("sb-admin/list.html",
+    return render_template("sb-admin/list.js.html",
         title='Current Callbacks',
         test='Current Callbacks',
         callbacks=callbacks,
@@ -65,35 +60,36 @@ def callback(case):
     iapi = GlobalApi()
     form = CallbackUpdate()
     callbacks = iapi.get('callbacks', case)
-    if form.validate_on_submit:
-        if form.status.data \
-            and form.details.data:
-            dictionary = {'details': form.details.data,
-                          'status': form.status.data,
-                          }
-            put = iapi.put('callbacks', case, dictionary)
-            form = CallbackUpdate()
-            # redundant.  fix the iapi.put() to return the correct data
-            callbacks = iapi.get('callbacks', case)
-            sendmail = SendMail(recipient='john.martin@rackspace.com',
-                                ddi=callbacks['callback']['ddi'],
-                                name=callbacks['callback']['name'],
-                                phone=callbacks['callback']['phone'],
-                                ticket=callbacks['callback']['ticket'],
-                                platform=callbacks['callback']['platform'],
-                                id=case,
-                                **dictionary
-                                )
-            message = sendmail.run()
-        return render_template("sb-admin/details.html",
+    if form.validate_on_submit():
+        updated = str(datetime.datetime.now())
+        dictionary = {'details':{'add':{'details': form.details.data,
+                      'status': form.status.data,
+                      'private': form.private.data,
+                      'updated': updated,
+                      }}}
+        put = iapi.put('callbacks', case, dictionary)
+        form = CallbackUpdate()
+        # redundant.  fix the iapi.put() to return the correct data
+        callbacks = iapi.get('callbacks', case)
+#|        sendmail = SendMail(recipient='john.martin@rackspace.com',
+#|                        ddi=callbacks['callback']['ddi'],
+#|                            name=callbacks['callback']['name'],
+#|                            phone=callbacks['callback']['phone'],
+#|                            ticket=callbacks['callback']['ticket'],
+#|                            platform=callbacks['callback']['platform'],
+#|                            id=case,
+#|                            **dictionary
+#|                            )
+#|        message = sendmail.run()
+        return render_template("sb-admin/details.js.html",
             title='Current Callbacks',
             test='Current Callbacks',
-            callbacks=callbacks['callback'],
+            callbacks=callbacks,
             form=form
             )
-    return render_template("sb-admin/details.html",
+    return render_template("sb-admin/details.js.html",
         title='Current Callbacks',
         test='Current Callbacks',
-        callbacks=callbacks['callback'],
+        callbacks=callbacks,
         form=form
         )

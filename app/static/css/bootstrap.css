@@ -1975,7 +1975,7 @@ textarea.form-control {
 }
 
 .form-group {
-  margin-bottom: 15px;
+  padding:5px 0px;
 }
 
 .radio,
@@ -5549,7 +5549,7 @@ a.thumbnail.active {
 .list-group-item {
   position: relative;
   display: block;
-  padding: 10px 15px;
+  padding: 5px 10px;
   margin-bottom: -1px;
   background-color: #ffffff;
   border: 1px solid #dddddd;

@@ -37,10 +37,10 @@ The API only accepts and returns JSON
 
 | HTTP Method  | URI                                             |                     Action |
 | :----------- | :---------------------------------------------- | :------------------------- |
-| GET          | http://[hostname]/api/v1.0/callbacks            | Retrieve list of callbacks |
-| GET          | http://[hostname]/api/v1.0/callbacks/[callback_id] | Retrieve a callback        |
-| POST         | http://[hostname]/api/v1.0/callbacks            | Create new callback        |
-| PUT          | http://[hostname]/api/v1.0/callbacks/[callback_id] | Update a callback          |
+| GET          | http://[hostname]/api/callbacks            | Retrieve list of callbacks |
+| GET          | http://[hostname]/api/callbacks/[callback_id] | Retrieve a callback        |
+| POST         | http://[hostname]/api/callbacks            | Create new callback        |
+| PUT          | http://[hostname]/api/callbacks/[callback_id] | Update a callback          |
 
 ##### POST request accepts all fields
 
@@ -75,10 +75,10 @@ The API only accepts and returns JSON
 - Better error handling for web interface and the API
 - User Login
 - Admin Panel
-- Consistant updates to the callback list
+- ~~Consistant updates to the callback list~~
 - ~~Email threading~~
 - Consider migrating the database to mongodb
 - Pageination
 - Commenting Code
 - Refractor**
-
+- Better docs
