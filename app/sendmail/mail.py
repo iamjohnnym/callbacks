@@ -13,6 +13,28 @@ class SendMail():
         self.name = name
         self.ddi = ddi
 
+    def mail(self):
+        message = """From: CallBack <test@ohaiworld.com>
+To: {0}
+Subject: {6} Call Back - Ticket {4}
+DDI: {1}
+Name: {2}
+Phone Number: {3}
+Ticket: https://rackspacecloud.zendesk.com/tickets/{4}
+
+Call Details:
+{5}
+        """.format(self.recipient,
+                   self.ddi,
+                   self.name,
+                   self.phone,
+                   self.ticket,
+                   self.details,
+                   self.platform
+                   )
+        print message
+        return message
+
     def run(self):
         message = """From: CallBack <postmaster@cb.ohaiworld.com>
 To: {0}
@@ -26,7 +48,7 @@ Thread-Index: {8}
 DDI: {1}
 Name: {2}
 Phone Number: {3}
-Ticket: https://some.url.com/tickets/{4}
+Ticket: https://rackspacecloud.zendesk.com/tickets/{4}
 Callback: http://192.237.219.96:8182/callbacks/{8}
 
 Call Details:

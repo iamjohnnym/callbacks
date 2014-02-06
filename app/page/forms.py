@@ -6,16 +6,19 @@ from wtforms.validators import Required, NumberRange, Regexp
 class CallbackSubmit(Form):
     #rec = TextField('TestRecipient', [validators.Required('Please enter the testing recipient')])
     ddi = IntegerField('DDI',
-                    [Required('Please enter the DDI'),
-                    Regexp(regex='\d{4,10}',
-                           message="Must enter at least 4 digits")])
+                    [Required('Please enter the DDI')],
+                    #Regexp(regex='\d{4,10}',
+                    #       message="Must enter at least 4 digits")])
+                    )
     ticket = IntegerField('Ticket',
-                       [Regexp(regex='\d{4,10}',
-                               message='Must enter at least 4 digits')])
+                       #[Regexp(regex='\d{4,10}',
+                       #        message='Must enter at least 4 digits')])
+                    )
     phone = IntegerField('Phone',
-                      [Required('Please enter the phone number'),
-                      Regexp(regex='\d{10,15}',
-                                  message='Must enter 10 digits')])
+                      [Required('Please enter the phone number')],
+                      #Regexp(regex='\d{10,15}',
+                      #            message='Must enter 10 digits')])
+                    )
     name = TextField('Name',
                      [Required('Please enter the contact name')])
     platform = SelectField('Platform',

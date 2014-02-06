@@ -13,12 +13,18 @@ def add():
     iapi = GlobalApi()
     form = CallbackSubmit()
     if form.validate_on_submit():
+        created = str(datetime.datetime.now())
+        updated = str(datetime.datetime.now())
         vars = {'ddi':form.ddi.data,
                 'ticket':form.ticket.data,
                 'name':form.name.data,
                 'phone':form.phone.data,
                 'platform':form.platform.data,
-                'details':form.details.data
+                'details':[
+                    { 'details': form.details.data,
+                      'updated':updated,
+                      'private':None}
+                    ]
                 }
         try:
             id = iapi.post('callbacks', vars)
@@ -26,10 +32,10 @@ def add():
             print e
         sendmail = SendMail(recipient='john.martin@rackspace.com',
                             status='New',
-                            id=id['callback']['id'],
+                            id=id['id'],
                             **vars)
         message = sendmail.run()
-        msg = Markup("New callback has been created for {0}.  To view, go here: <a href=\"/callbacks/{1}\">View</a>".format(vars['name'], id['callback']['id']))
+        msg = Markup("New callback has been created for {0}.  To view, go here: <a href=\"/callbacks/{1}\">View</a>".format(vars['name'], id['id']))
         flash(msg)
         return redirect(url_for('index'))
     return render_template("sb-admin/add.html",
@@ -55,10 +61,12 @@ def callback(case):
     form = CallbackUpdate()
     callbacks = iapi.get('callbacks', case)
     if form.validate_on_submit():
-        dictionary = {'details': form.details.data,
+        updated = str(datetime.datetime.now())
+        dictionary = {'details':{'add':{'details': form.details.data,
                       'status': form.status.data,
                       'private': form.private.data,
-                      }
+                      'updated': updated,
+                      }}}
         put = iapi.put('callbacks', case, dictionary)
         form = CallbackUpdate()
         # redundant.  fix the iapi.put() to return the correct data
@@ -76,12 +84,12 @@ def callback(case):
         return render_template("sb-admin/details.js.html",
             title='Current Callbacks',
             test='Current Callbacks',
-            callbacks=callbacks['callback'],
+            callbacks=callbacks,
             form=form
             )
     return render_template("sb-admin/details.js.html",
         title='Current Callbacks',
         test='Current Callbacks',
-        callbacks=callbacks['callback'],
+        callbacks=callbacks,
         form=form
         )

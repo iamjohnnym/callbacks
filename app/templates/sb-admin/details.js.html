@@ -12,6 +12,13 @@
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             </div>
             -->
+            <div id="connection-danger" class="alert alert-danger alert-dismissable">
+              <div id="connection-lost"></div>
+            </div>
+            <div id="new_post" class="alert alert-success alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <div id="new"></div>
+            </div>
           </div>
         </div><!-- /.row -->
 
@@ -160,49 +167,48 @@
          </form>
         <div class="row">
           <div class="col-lg-12">
-            <div class="panel panel-primary">
-              <div class="panel-heading">
+            <div id="last_entry" class="panel panel-primary">
+              <div class="panel-heading msg">
                   <h4 class="panel-title"><i class="fa fa-ticket"></i> Last message details - {{ callbacks.details[-1].status|title }} at {{ callbacks.details[-1].updated }}</h4>
               </div>
-              <div class="panel-body">
+              <div class="panel-body msg">
                   {% set status = callbacks.details[-1].status %}
                   <p>{{ callbacks.details[-1].details }}</p>
                   <h6>Posted: {{ callbacks.details[-1].updated }}</h6>
               </div>
-            <div>
+            </div>
           </div>
         </div>
 
 
-      {% for details in callbacks.details %}
-        <div class="row">
+    <!-- ko foreach: callback -->
+    <div data-bind="if: message" class="row msg">
           <div class="col-lg-12">
-            <div class="panel panel-default">
+              <div data-bind="attr: {id: msg_id}" class="panel panel-default">
               <div class="panel-heading">
-                  <h4 class="panel-title"><i class="fa fa-ticket"></i> Callback Details - {{ details.status|title }} at {{ details.updated }}</h4>
+                  <h4 class="panel-title"><i class="fa fa-ticket"></i> <span data-bind="html: message_title"></span></h4>
               </div>
               <div class="panel-body">
-                  <p>{{ details.details }}</p>
-                  <h6>Posted: {{ details.updated }}</h6>
+                  <p data-bind="text: message">details</p>
+                  <h6>Posted: updated</h6>
               </div>
-            <div>
+            </div>
           </div>
         </div>
-        {% if details.private %}
-        <div class="row">
+        <div data-bind="if: private" class="row msg">
           <div class="col-lg-12">
             <div class="panel panel-warning">
               <div class="panel-heading">
-                  <h4 class="panel-title"><i class="fa fa-info-circle"></i> Private Note - {{ details.status|title }} at {{ details.updated }}</h4>
+                  <h4 class="panel-title"><i class="fa fa-info-circle"></i> <span data-bind="html: private_title"></span></h4>
               </div>
               <div class="panel-body">
-                  <p>{{ details.private }}</p>
+                  <p data-bind="html: private"></p>
               </div>
-            <div>
+            </div>
           </div>
         </div>
-        {% endif %}
-      {% endfor %}
+    <!-- /ko -->
 
+    <script src="{{ url_for('static', filename='js/ajaxdetails.js') }}"></script>
 
 {% endblock %}
