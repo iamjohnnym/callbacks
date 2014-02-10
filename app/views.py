@@ -23,6 +23,7 @@ def add():
                 'details':[
                     { 'details': form.details.data,
                       'updated':updated,
+                      'user_name':'Steve McQueen',
                       'private':None}
                     ]
                 }

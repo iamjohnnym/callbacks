@@ -52,7 +52,10 @@ function CallbackDetailsViewModel() {
         self.cb = 0;
     }
     $('#new_post').hide();
+    $('#viewers').hide();
+    $('#connection').hide();
     var posts = self.cb;
+    var view_length = 0;
     function ajaxCall() {
         self.ajax(self.callbackLengthURI, 'GET').done(function(data) {
             if (data.details.length > self.cb) {
@@ -61,6 +64,16 @@ function CallbackDetailsViewModel() {
                     $('#new_post').show();
                     $('#new').html(posts+" changes");
                 }
+                if (data.viewing.length > 0) {
+                    var viewers = "";
+                    
+                    view_length = data.viewing.length;
+                    for (var i = 0; i < data.viewing.length; i++) {
+                        viewers += data.viewing[i].user+", ";
+                    }
+                    $('#viewers').show();
+                    $('#users').html("Currently viewing this page: "+viewers );
+                } 
                 self.ajax(self.callbackDetailsURI, 'GET').done(function(data) {
                     $('.tablesorter').trigger("update");
                     $('.msg').remove();
@@ -94,8 +107,8 @@ function CallbackDetailsViewModel() {
                                 data.details[i]["details"][data.details[i]["details"].length - 1].status),
                             ddi: ko.observable(data.ddi),
                             ticket: ko.observable(data.ticket),
-                            message_title: ko.observable("Message Details - "+data.details[i].status+" at "+updated),
-                            private_title: ko.observable("Private Note - "+data.details[i].status+" at "+updated),
+                            message_title: ko.observable("Message Details - "+data.details[i].status+" at "+updated+" by "+data.details[i].user_name),
+                            private_title: ko.observable("Private Note - "+data.details[i].status+" at "+updated+" by "+data.details[i].user_name),
                             message: ko.observable(data.details[i].details),
                             private: ko.observable(data.details[i].private),
                             name: ko.observable(data.name),
