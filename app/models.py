@@ -10,6 +10,7 @@ class Callbacks(db.Model):
     platform = db.Column(db.String(64), index = True)
     created = db.Column(db.DateTime, index = True, default=datetime.datetime.now())
     details = db.relationship('CallbackDetails', backref='comments', lazy='dynamic')
+    viewing = db.relationship('ActiveTickets', backref='users_viewing', lazy='dynamic')
 
     def __repr__(self):
         return '<User %r' % (self.name)
@@ -21,7 +22,7 @@ class CallbackDetails(db.Model):
     private = db.Column(db.String(64), index = True)
     status = db.Column(db.String(64), index = True, default='new')
     callbacks_id = db.Column(db.Integer, db.ForeignKey('callbacks.id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    author = db.Column(db.Integer, db.ForeignKey('user.name'))
 
     def __repr__(self):
         return '<User %r' % (self.id)
@@ -30,7 +31,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
     responses = db.relationship('CallbackDetails', backref='responses', lazy='dynamic')
-    users = db.relationship('ActiveTickets', backref='viewing_tickets', lazy='dynamic')
+    viewing = db.relationship('ActiveTickets', backref='viewing', lazy='dynamic')
 
     def __repr__(self):
         return '<User %r' % (self.id)

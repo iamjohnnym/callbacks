@@ -64,6 +64,14 @@ function CallbackDetailsViewModel() {
                 self.ajax(self.callbackDetailsURI, 'GET').done(function(data) {
                     $('.tablesorter').trigger("update");
                     $('.msg').remove();
+                    if (data.users.length > 0) {
+                        var visitors = "";
+                        //$('#vistors').show();
+                        for (var i = 0; i < data.users.length; i++) {
+                            visitors += data.users[i].user_id+" ";
+                        }
+                        console.log(visitors);
+                    }
                     for (var i = 0; i < data.details.length; i++) {
                         var last_updated = moment(data.details[i].details[data.details[i].details.length - 1].updated).format('MMMM Do YYYY, h:mm:ss a');
                         var updated = moment(data.details[i].updated).format('MMMM Do YYYY, h:mm:ss a');
